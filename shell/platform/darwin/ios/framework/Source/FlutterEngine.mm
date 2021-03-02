@@ -531,7 +531,9 @@ static constexpr int kNumProfilerSamplesPerSec = 5;
                                   std::move(platformData),  // window data
                                   std::move(settings),      // settings
                                   on_create_platform_view,  // platform view creation
-                                  on_create_rasterizer      // rasterzier creation
+                                  on_create_rasterizer,     // rasterzier creation
+                                  /*is_gpu_disabled=*/[UIApplication sharedApplication].applicationState !=
+          UIApplicationStateActive
   );
 
   if (_shell == nullptr) {
