@@ -527,13 +527,13 @@ static constexpr int kNumProfilerSamplesPerSec = 5;
   );
 
   // Create the shell. This is a blocking operation.
-  _shell = flutter::Shell::Create(std::move(task_runners),  // task runners
-                                  std::move(platformData),  // window data
-                                  std::move(settings),      // settings
-                                  on_create_platform_view,  // platform view creation
-                                  on_create_rasterizer,     // rasterzier creation
-                                  /*is_gpu_disabled=*/[UIApplication sharedApplication].applicationState !=
-          UIApplicationStateActive
+  _isGpuDisabled = [UIApplication sharedApplication].applicationState != UIApplicationStateActive;
+  _shell = flutter::Shell::Create(/*task_runners=*/std::move(task_runners),
+                                  /*platform_data=*/std::move(platformData),
+                                  /*settings=*/std::move(settings),
+                                  /*on_create_platform_view=*/on_create_platform_view,
+                                  /*on_create_rasterizer=*/on_create_rasterizer,
+                                  /*is_gpu_disabled=*/_isGpuDisabled
   );
 
   if (_shell == nullptr) {
@@ -547,7 +547,6 @@ static constexpr int kNumProfilerSamplesPerSec = 5;
     }
     _publisher.reset([[FlutterObservatoryPublisher alloc] init]);
     [self maybeSetupPlatformViewChannels];
-    _shell->GetIsGpuDisabledSyncSwitch()->SetSwitch(_isGpuDisabled ? true : false);
     if (profilerEnabled) {
       [self startProfiler:threadLabel];
     }
