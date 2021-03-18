@@ -274,7 +274,7 @@ std::unique_ptr<Shell> Shell::Create(
     Settings settings,
     const Shell::CreateCallback<PlatformView>& on_create_platform_view,
     const Shell::CreateCallback<Rasterizer>& on_create_rasterizer,
-    bool is_gpu_disabled = false) {
+    bool is_gpu_disabled) {
   return Shell::Create(std::move(task_runners),                    //
                        PlatformData{/* default platform data */},  //
                        std::move(settings),                        //

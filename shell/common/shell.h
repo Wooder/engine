@@ -144,7 +144,7 @@ class Shell final : public PlatformView::Delegate,
       Settings settings,
       const CreateCallback<PlatformView>& on_create_platform_view,
       const CreateCallback<Rasterizer>& on_create_rasterizer,
-      bool is_gpu_disabled);
+      bool is_gpu_disabled = false);
 
   //----------------------------------------------------------------------------
   /// @brief      Creates a shell instance using the provided settings. The
@@ -183,7 +183,7 @@ class Shell final : public PlatformView::Delegate,
       Settings settings,
       CreateCallback<PlatformView> on_create_platform_view,
       CreateCallback<Rasterizer> on_create_rasterizer,
-      bool is_gpu_disabled = false);
+      bool is_gpu_disabled);
 
   //----------------------------------------------------------------------------
   /// @brief      Creates a shell instance using the provided settings.
