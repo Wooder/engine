@@ -143,7 +143,8 @@ class Shell final : public PlatformView::Delegate,
       TaskRunners task_runners,
       Settings settings,
       const CreateCallback<PlatformView>& on_create_platform_view,
-      const CreateCallback<Rasterizer>& on_create_rasterizer);
+      const CreateCallback<Rasterizer>& on_create_rasterizer,
+      bool is_gpu_disabled);
 
   //----------------------------------------------------------------------------
   /// @brief      Creates a shell instance using the provided settings. The
@@ -181,7 +182,8 @@ class Shell final : public PlatformView::Delegate,
       const PlatformData platform_data,
       Settings settings,
       CreateCallback<PlatformView> on_create_platform_view,
-      CreateCallback<Rasterizer> on_create_rasterizer);
+      CreateCallback<Rasterizer> on_create_rasterizer,
+      bool is_gpu_disabled = false);
 
   //----------------------------------------------------------------------------
   /// @brief      Creates a shell instance using the provided settings.
@@ -202,7 +204,8 @@ class Shell final : public PlatformView::Delegate,
       const CreateCallback<PlatformView>& on_create_platform_view,
       const CreateCallback<Rasterizer>& on_create_rasterizer,
       DartVMRef vm,
-      const EngineCreateCallback& on_create_engine);
+      const EngineCreateCallback& on_create_engine,
+      bool is_gpu_disabled);
 
   //----------------------------------------------------------------------------
   /// @brief      Destroys the shell. This is a synchronous operation and

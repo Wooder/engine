@@ -273,12 +273,14 @@ std::unique_ptr<Shell> Shell::Create(
     TaskRunners task_runners,
     Settings settings,
     const Shell::CreateCallback<PlatformView>& on_create_platform_view,
-    const Shell::CreateCallback<Rasterizer>& on_create_rasterizer) {
+    const Shell::CreateCallback<Rasterizer>& on_create_rasterizer,
+    bool is_gpu_disabled = false) {
   return Shell::Create(std::move(task_runners),                    //
                        PlatformData{/* default platform data */},  //
                        std::move(settings),                        //
                        std::move(on_create_platform_view),         //
-                       std::move(on_create_rasterizer)             //
+                       std::move(on_create_rasterizer),            //
+                       is_gpu_disabled
   );
 }
 
@@ -287,7 +289,8 @@ std::unique_ptr<Shell> Shell::Create(
     const PlatformData platform_data,
     Settings settings,
     Shell::CreateCallback<PlatformView> on_create_platform_view,
-    Shell::CreateCallback<Rasterizer> on_create_rasterizer) {
+    Shell::CreateCallback<Rasterizer> on_create_rasterizer,
+    bool is_gpu_disabled) {
   PerformInitializationTasks(settings);
   PersistentCache::SetCacheSkSL(settings.cache_sksl);
 
@@ -305,7 +308,8 @@ std::unique_ptr<Shell> Shell::Create(
                        on_create_platform_view,        //
                        on_create_rasterizer,           //
                        std::move(vm),                  //
-                       CreateEngine);
+                       CreateEngine,
+                       is_gpu_disabled);
 }
 
 std::unique_ptr<Shell> Shell::Create(
@@ -316,7 +320,8 @@ std::unique_ptr<Shell> Shell::Create(
     const Shell::CreateCallback<PlatformView>& on_create_platform_view,
     const Shell::CreateCallback<Rasterizer>& on_create_rasterizer,
     DartVMRef vm,
-    const Shell::EngineCreateCallback& on_create_engine) {
+    const Shell::EngineCreateCallback& on_create_engine,
+    bool is_gpu_disabled) {
   PerformInitializationTasks(settings);
   PersistentCache::SetCacheSkSL(settings.cache_sksl);
 
@@ -497,7 +502,7 @@ std::unique_ptr<Shell> Shell::Spawn(
                              /*dispatcher_maker=*/dispatcher_maker,
                              /*settings=*/settings,
                              /*animator=*/std::move(animator));
-      }));
+      }, true));
   result->shared_resource_context_ = io_manager_->GetSharedResourceContext();
   result->RunEngine(std::move(run_configuration));
 
